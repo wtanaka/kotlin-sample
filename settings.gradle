@@ -1,0 +1,3 @@
+rootProject.name = 'kotlin-sample'
+
+include 'kotlin-sample-jvm', 'kotlin-sample-js'
