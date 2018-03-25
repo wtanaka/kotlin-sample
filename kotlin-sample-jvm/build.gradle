@@ -39,6 +39,17 @@ compileKotlin {
     kotlinOptions.allWarningsAsErrors = true
 }
 
+findbugs {
+    excludeFilter = project.file('../config/findbugs-filter.xml')
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
 // Use the command line version of detekt because
 // the plugin does not deal with nested projects well
 task detekt(type: JavaExec) {
