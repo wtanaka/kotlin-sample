@@ -19,6 +19,7 @@ repositories {
 
 configurations {
     detekt
+    ktlint
 }
 
 dependencies {
@@ -26,6 +27,7 @@ dependencies {
     expectedBy project(":")
     testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
     detekt "io.gitlab.arturbosch.detekt:detekt-cli:$detekt_version"
+    ktlint "com.github.shyiko:ktlint:0.20.0"
 }
 
 // Use the command line version of detekt because
@@ -40,3 +42,21 @@ task detekt(type: JavaExec) {
     args(params)
 }
 check.dependsOn detekt
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.github.shyiko.ktlint.Main"
+    args "src/**/*.kt"
+    // to generate report in checkstyle format prepend following args:
+    // "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/ktlint.xml"
+    // see https://github.com/shyiko/ktlint#usage for more
+}
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    classpath = configurations.ktlint
+    main = "com.github.shyiko.ktlint.Main"
+    args "-F", "src/**/*.kt"
+}
