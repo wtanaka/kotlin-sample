@@ -11,6 +11,8 @@ buildscript {
 }
 
 apply plugin: 'kotlin-platform-jvm'
+apply plugin: 'findbugs'
+
 
 repositories {
     mavenCentral()
