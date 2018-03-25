@@ -1,4 +1,5 @@
 /build/
 /.gradle/
 /.idea/
+/kotlin-sample-js/build/
 /kotlin-sample-jvm/build/

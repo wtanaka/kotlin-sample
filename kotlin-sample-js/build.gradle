@@ -1,5 +1,6 @@
 buildscript {
     ext.kotlin_version = '1.2.30'
+    ext.detekt_version = '1.0.0.RC6-4'
 
     repositories {
         mavenCentral()
@@ -12,10 +13,30 @@ apply plugin: 'kotlin-platform-js'
 
 repositories {
     mavenCentral()
+    // For detekt
+    maven { url "https://plugins.gradle.org/m2/" }
+}
+
+configurations {
+    detekt
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
     expectedBy project(":")
     testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+    detekt "io.gitlab.arturbosch.detekt:detekt-cli:$detekt_version"
 }
+
+// Use the command line version of detekt because
+// the plugin does not deal with nested projects well
+task detekt(type: JavaExec) {
+    main = "io.gitlab.arturbosch.detekt.cli.Main"
+    classpath = configurations.detekt
+    def input = "$projectDir"
+    def config = "$projectDir/../config/detekt.yml"
+    def filters = ".*test.*"
+    def params = [ '-i', input, '-c', config, '-f', filters]
+    args(params)
+}
+check.dependsOn detekt
