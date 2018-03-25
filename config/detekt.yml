@@ -46,4 +46,4 @@ output-reports:
 
 style:
   MaxLineLength:
-    maxLineLength: 100
+    maxLineLength: 80
