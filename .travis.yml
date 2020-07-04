@@ -6,6 +6,5 @@ script:
   -e "HOSTUID=`id -u`"
   -e "HOSTGID=`id -g`"
   -v "`pwd`:/work"
-  -v "$HOME:/home/hostuser"
   -i -t cliwrap/openjdk8
   ./gradlew check
