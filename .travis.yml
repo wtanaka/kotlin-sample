@@ -7,5 +7,5 @@ script:
   -e "HOSTGID=`id -g`"
   -v "`pwd`:/work"
   -v "$HOME:/home/hostuser"
-  -i -t wtanaka/alpine-37-uid-openjdk8
+  -i -t cliwrap/openjdk8
   ./gradlew check
